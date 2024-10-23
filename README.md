@@ -61,10 +61,9 @@ cd Grafos1_Engavetamento
 python -m pip install -r requirements.txt
 ```
 
-#### Rodando projeto
+### Rodando projeto
 
 ```shell
-cd Grafos1_Engavetamento
 python manage.py runserver 8080
 ```
 
