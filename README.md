@@ -7,7 +7,7 @@
 |Matrícula | Aluno |
 | -- | -- |
 | 21/1030863  |  Maykon Júnio dos Santos Soares |
-| xx/xxxxxx  |  Isaac Lucas de Souza Bezerra |
+| 21/1031735  |  Isaac Lucas de Souza Bezerra |
 
 ## Sobre 
 A proposta deste projeto é desenvolver um simulador para as buscas em profundidade (DFS) e em largura (BFS), utilizando como exemplo um fenômeno que ocorre frequentemente nas estradas brasileiras: o engavetamento. O engavetamento acontece quando há uma interrupção abrupta no fluxo de veículos em uma estrada de alta velocidade, fazendo com que um carro em movimento colida bruscamente com a traseira de outro. O impacto dessa colisão pode ser tão intenso que a força da batida é transferida para outros veículos à frente ou ao lado, resultando em múltiplos veículos envolvidos no acidente.
