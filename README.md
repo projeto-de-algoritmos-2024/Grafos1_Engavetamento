@@ -25,48 +25,14 @@ Imagem 2
 Imagem 3
 
 ## Instalação 
-**Linguagem**: Python 3.13.0<br>
-**Framework**: Django<br>
+**Linguagem**: Typescript<br>
+**Framework**: Next.js<br>
 
 ### Clonando o repositório
 
 ```shell
 git clone https://github.com/projeto-de-algoritmos-2024/Grafos1_Engavetamento.git
 ```
-
-### Ambiente virtual
-
-#### Criação
-
-```shell
-python -m venv /path/to/new/virtual/environment
-```
-
-#### ativando
-
-- linux
-```shell
-source ./venv/Scripts/activate
-```
-
-- windows
-```shell
-./venv/Scripts/activate
-```
-
-### Instalar pacotes
-
-```shell
-cd Grafos1_Engavetamento
-python -m pip install -r requirements.txt
-```
-
-### Rodando projeto
-
-```shell
-python manage.py runserver 8080
-```
-
 
 ## Uso 
 Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
