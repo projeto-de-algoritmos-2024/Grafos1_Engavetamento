@@ -64,8 +64,8 @@ function generateStructuredGraph(rows: number, cols: number): Graph {
 }
 
 // Função para renderizar o grafo como grid
-const renderGraphGrid = (graph: Graph, onNodeClick: (node: Node) => void) => {
-  const cols = 4; // Número fixo de colunas (pode ser alterado conforme a necessidade)
+const renderGraphGrid = (graph: Graph, nodeColors: Map<number, string>, onNodeClick: (node: Node) => void) => {
+  const cols = 4;
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 100px)`, gap: '10px' }}>
@@ -79,10 +79,10 @@ const renderGraphGrid = (graph: Graph, onNodeClick: (node: Node) => void) => {
             alignItems: 'center',
             justifyContent: 'center',
             position: 'relative',
-            background: 'green',
-            cursor: 'pointer' // Adiciona um cursor de pointer para indicar que é clicável
+            background: nodeColors.get(node.value) || 'green', // A cor do nó
+            cursor: 'pointer' 
           }}
-          onClick={() => onNodeClick(node)} // Adiciona evento de clique
+          onClick={() => onNodeClick(node)} 
         >
           {node.value}
         </div>
@@ -93,7 +93,7 @@ const renderGraphGrid = (graph: Graph, onNodeClick: (node: Node) => void) => {
 
 export default function Home() {
   const [graph, setGraph] = useState<Graph | null>(null);
-  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+  const [nodeColors, setNodeColors] = useState<Map<number, string>>(new Map());
 
   useEffect(() => {
     const generatedGraph = generateStructuredGraph(3, 4); // 3 linhas, 4 colunas
@@ -101,26 +101,32 @@ export default function Home() {
   }, []);
 
   const handleNodeClick = (node: Node) => {
-    setSelectedNode(node);
+    // Atualiza a cor do nó inicial e propaga para os vizinhos
+    updateNodeColor(node, 0);
+  };
+
+  const updateNodeColor = (node: Node, delay: number) => {
+    setTimeout(() => {
+      setNodeColors((prevColors) => {
+        const newColors = new Map(prevColors);
+        newColors.set(node.value, 'red');
+        return newColors;
+      });
+      
+      // Propaga para os vizinhos
+      node.neighbors.forEach((neighbor) => {
+        if (!nodeColors.get(neighbor.value)) { 
+          updateNodeColor(neighbor, delay + 500); 
+        }
+      });
+    }, delay);
   };
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1>Aqui temos um teste legal</h1>
-        {graph ? renderGraphGrid(graph, handleNodeClick) : <p>Carregando grafo...</p>}
-        
-        {/* Exibe os vizinhos do nó selecionado */}
-        {selectedNode && (
-          <div>
-            <h2>Vizinhos do Node {selectedNode.value}:</h2>
-            <ul>
-              {selectedNode.neighbors.map(neighbor => (
-                <li key={neighbor.value}>{neighbor.value}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {graph ? renderGraphGrid(graph, nodeColors, handleNodeClick) : <p>Carregando grafo...</p>}
       </main>
     </div>
   );
