@@ -1,17 +1,18 @@
 'use client'
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 class Node {
   value: number;
-  neighbors: Node[];
+  neighbors: number[];
 
   constructor(value: number) {
     this.value = value;
     this.neighbors = [];
   }
 
-  addNeighbor(node: Node) {
+  addNeighbor(node: number) {
     if (!this.neighbors.includes(node)) {
       this.neighbors.push(node);
     }
@@ -26,106 +27,129 @@ class Graph {
   }
 
   addNode(value: number) {
-    const node = new Node(value);
-    this.nodes.push(node);
-  }
-
-  addEdge(source: Node, destination: Node) {
-    source.addNeighbor(destination);
-    destination.addNeighbor(source);
-  }
-}
-
-// Função para gerar um grafo em grid
-function generateStructuredGraph(rows: number, cols: number): Graph {
-  const graph = new Graph();
-
-  // Adiciona nós na matriz
-  for (let i = 0; i < rows * cols; i++) {
-    graph.addNode(i);
-  }
-
-  // Conecta os nós horizontalmente e verticalmente
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const index = r * cols + c;
-      // Conecta horizontalmente
-      if (c < cols - 1) {
-        graph.addEdge(graph.nodes[index], graph.nodes[index + 1]);
-      }
-      // Conecta verticalmente
-      if (r < rows - 1) {
-        graph.addEdge(graph.nodes[index], graph.nodes[index + cols]);
-      }
+    if (!this.nodes.find((i) => i.value === value)) {
+      const node = new Node(value);
+      this.nodes.push(node);
     }
   }
 
-  return graph;
+  addEdge(source: Node, destination: Node) {
+    source.addNeighbor(destination.value);
+  }
+
+  getNode(value: number): Node | null {
+    return this.nodes.find((i) => i.value === value) || null;
+  }
 }
 
-// Função para renderizar o grafo como grid
-const renderGraphGrid = (graph: Graph, nodeColors: Map<number, string>, onNodeClick: (node: Node) => void) => {
-  const cols = 4;
+function generateRandomGraph(numNodes: number, numNeighbors: number): Graph {
+  const graph = new Graph();
 
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 100px)`, gap: '10px' }}>
-      {graph.nodes.map((node) => (
-        <div 
-          key={node.value} 
-          style={{
-            borderRadius: '100px',
-            padding: '10px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            background: nodeColors.get(node.value) || 'green', // A cor do nó
-            cursor: 'pointer' 
-          }}
-          onClick={() => onNodeClick(node)} 
-        >
-          {node.value}
-        </div>
-      ))}
-    </div>
-  );
-};
+  console.log(graph);
 
+  for (let i = 0; i < numNodes; i++) {
+    graph.addNode(i);
+  }
+
+  for (let node of graph.nodes) {
+    const neighborsToAdd = new Set<number>();
+    const maxNeighbors = Math.min(numNeighbors, numNodes - 1);
+
+    while (neighborsToAdd.size < maxNeighbors) {
+      const randomIndex = Math.floor(Math.random() * numNodes);
+      if (randomIndex !== node.value) {
+        neighborsToAdd.add(randomIndex);
+      }
+    }
+
+    for (let neighborIndex of neighborsToAdd) {
+      const neighborNode = graph.nodes[neighborIndex];
+      graph.addEdge(node, neighborNode);
+    }
+  }
+  return graph;
+}
 export default function Home() {
   const [graph, setGraph] = useState<Graph | null>(null);
   const [nodeColors, setNodeColors] = useState<Map<number, string>>(new Map());
 
   useEffect(() => {
-    const generatedGraph = generateStructuredGraph(3, 4); // 3 linhas, 4 colunas
+    const generatedGraph = generateRandomGraph(6, 2);
     setGraph(generatedGraph);
   }, []);
 
-  const handleNodeClick = (node: Node) => {
-    // Atualiza a cor do nó inicial e propaga para os vizinhos
-    updateNodeColor(node, 0);
+  function bfs(graph: Graph | null, start: number) {
+    const queue = [start];
+    const visited = new Set<number>();
+    const result: number[] = [];
+
+    while (queue.length) {
+      const vertex = queue.shift();
+
+
+      if (vertex === undefined || visited.has(vertex)) continue;
+      visited.add(vertex);
+      result.push(vertex);
+
+      if (graph === null) continue;
+      const node = graph.getNode(vertex);
+
+      console.log(visited);
+
+      visited.forEach((i) => {
+        updateNodeColor(graph?.getNode(i), 100)
+      })
+
+      if (node) {
+
+        for (const neighbor of node.neighbors) {
+          if (!visited.has(neighbor)) {
+            queue.push(neighbor);
+          }
+        }
+      }
+    }
+  }
+
+  const renderGraphGrid = (graph: Graph, nodeColors: Map<number, string>, onNodeClick: (node: Node) => void) => {
+    const cols = 3;
+
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 100px)`, gap: '10px' }}>
+        {graph.nodes.map((node) => (
+          <Image
+            key={node.value}
+            alt="teste"
+            width={100}
+            height={100}
+            src={`/${nodeColors.get(node.value) || 'yellow'}-car.png`}
+            onClick={() => onNodeClick(node)}
+          />
+        ))}
+      </div>
+    );
   };
 
-  const updateNodeColor = (node: Node, delay: number) => {
+  const handleNodeClick = (node: Node) => {
+    console.log(graph);
+
+    bfs(graph, node.value)
+  };
+
+  const updateNodeColor = (node: Node | null | undefined, delay: number) => {
     setTimeout(() => {
       setNodeColors((prevColors) => {
         const newColors = new Map(prevColors);
-        newColors.set(node.value, 'red');
+        newColors.set(node?.value || 0, 'red');
         return newColors;
-      });
-      
-      // Propaga para os vizinhos
-      node.neighbors.forEach((neighbor) => {
-        if (!nodeColors.get(neighbor.value)) { 
-          updateNodeColor(neighbor, delay + 500); 
-        }
       });
     }, delay);
   };
 
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1>Aqui temos um teste legal</h1>
         {graph ? renderGraphGrid(graph, nodeColors, handleNodeClick) : <p>Carregando grafo...</p>}
       </main>
     </div>
