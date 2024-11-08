@@ -44,9 +44,7 @@ class Graph {
 
 function generateRandomGraph(numNodes: number, numNeighbors: number): Graph {
   const graph = new Graph();
-  
-  console.log(graph);
-  
+
   for (let i = 0; i < numNodes; i++) {
     graph.addNode(i);
   }
@@ -67,6 +65,7 @@ function generateRandomGraph(numNodes: number, numNeighbors: number): Graph {
       graph.addEdge(node, neighborNode);
     }
   }
+  console.log("Grafo: ", graph); 
   return graph;
 }
 
@@ -75,29 +74,31 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export default function Home() {
   const [graph, setGraph] = useState<Graph | null>(null);
   const [nodeColors, setNodeColors] = useState<Map<number, string>>(new Map());
+  const [searchType, setSearchType] = useState<"BFS" | "DFS">("BFS"); 
 
   useEffect(() => {
     const generatedGraph = generateRandomGraph(6, 2);
     setGraph(generatedGraph);
   }, []);
 
+
   async function bfs(graph: Graph | null, start: number) {
     const queue = [start];
     const visited = new Set<number>();
-
+    
     while (queue.length) {
       const vertex = queue.shift();
 
       if (vertex === undefined || visited.has(vertex)) continue;
       visited.add(vertex);
 
+      console.log("bfs:", vertex); 
+
       await updateNodeColor(vertex, "red");
       await delay(500);
 
       if (graph === null) continue;
       const node = graph.getNode(vertex);
-      console.log(visited);
-      
 
       if (node) {
         for (const neighbor of node.neighbors) {
@@ -109,18 +110,47 @@ export default function Home() {
     }
   }
 
+  async function dfs(graph: Graph | null, start: number) {
+    const stack = [start];
+    const visited = new Set<number>();
+
+    
+    while (stack.length) {
+      const vertex = stack.pop();
+
+      if (vertex === undefined || visited.has(vertex)) continue;
+      visited.add(vertex);
+
+      console.log("dsf", vertex); 
+
+      await updateNodeColor(vertex, "red");
+      await delay(500);
+
+      if (graph === null) continue;
+      const node = graph.getNode(vertex);
+
+      if (node) {
+        for (const neighbor of node.neighbors) {
+          if (!visited.has(neighbor)) {
+            stack.push(neighbor);
+          }
+        }
+      }
+    }
+  }
+
   const renderGraphGrid = (graph: Graph, nodeColors: Map<number, string>, onNodeClick: (node: Node) => void) => {
     const cols = 3;
 
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 100px)`, gap: '10px' }}>
+      <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 100px)`, gap: "10px" }}>
         {graph.nodes.map((node) => (
           <Image
             key={node.value}
-            alt="teste"
+            alt="Carro"
             width={100}
             height={100}
-            src={`/${nodeColors.get(node.value) || 'yellow'}-car.png`}
+            src={`/${nodeColors.get(node.value) || "yellow"}-car.png`}
             onClick={() => onNodeClick(node)}
           />
         ))}
@@ -130,7 +160,13 @@ export default function Home() {
 
   const handleNodeClick = (node: Node) => {
     if (graph) {
-      bfs(graph, node.value);
+      setNodeColors(new Map());
+      
+      if (searchType === "BFS") {
+        bfs(graph, node.value);
+      } else if (searchType === "DFS") {
+        dfs(graph, node.value);
+      }
     }
   };
 
@@ -145,6 +181,14 @@ export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <div className="flex gap-4 mb-4">
+          <button onClick={() => setSearchType("BFS")} className="px-4 py-2 bg-blue-500 text-white rounded">
+            BFS
+          </button>
+          <button onClick={() => setSearchType("DFS")} className="px-4 py-2 bg-green-500 text-white rounded">
+            DFS
+          </button>
+        </div>
         {graph ? renderGraphGrid(graph, nodeColors, handleNodeClick) : <p>Carregando grafo...</p>}
       </main>
     </div>
