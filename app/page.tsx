@@ -44,9 +44,9 @@ class Graph {
 
 function generateRandomGraph(numNodes: number, numNeighbors: number): Graph {
   const graph = new Graph();
-
+  
   console.log(graph);
-
+  
   for (let i = 0; i < numNodes; i++) {
     graph.addNode(i);
   }
@@ -69,6 +69,9 @@ function generateRandomGraph(numNodes: number, numNeighbors: number): Graph {
   }
   return graph;
 }
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export default function Home() {
   const [graph, setGraph] = useState<Graph | null>(null);
   const [nodeColors, setNodeColors] = useState<Map<number, string>>(new Map());
@@ -78,30 +81,25 @@ export default function Home() {
     setGraph(generatedGraph);
   }, []);
 
-  function bfs(graph: Graph | null, start: number) {
+  async function bfs(graph: Graph | null, start: number) {
     const queue = [start];
     const visited = new Set<number>();
-    const result: number[] = [];
 
     while (queue.length) {
       const vertex = queue.shift();
 
-
       if (vertex === undefined || visited.has(vertex)) continue;
       visited.add(vertex);
-      result.push(vertex);
+
+      await updateNodeColor(vertex, "red");
+      await delay(500);
 
       if (graph === null) continue;
       const node = graph.getNode(vertex);
-
       console.log(visited);
-
-      visited.forEach((i) => {
-        updateNodeColor(graph?.getNode(i), 100)
-      })
+      
 
       if (node) {
-
         for (const neighbor of node.neighbors) {
           if (!visited.has(neighbor)) {
             queue.push(neighbor);
@@ -131,21 +129,18 @@ export default function Home() {
   };
 
   const handleNodeClick = (node: Node) => {
-    console.log(graph);
-
-    bfs(graph, node.value)
+    if (graph) {
+      bfs(graph, node.value);
+    }
   };
 
-  const updateNodeColor = (node: Node | null | undefined, delay: number) => {
-    setTimeout(() => {
-      setNodeColors((prevColors) => {
-        const newColors = new Map(prevColors);
-        newColors.set(node?.value || 0, 'red');
-        return newColors;
-      });
-    }, delay);
+  const updateNodeColor = async (nodeValue: number, color: string) => {
+    setNodeColors((prevColors) => {
+      const newColors = new Map(prevColors);
+      newColors.set(nodeValue, color);
+      return newColors;
+    });
   };
-
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
