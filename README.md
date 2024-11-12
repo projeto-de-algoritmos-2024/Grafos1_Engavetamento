@@ -52,10 +52,8 @@ npm run dev
 Abra o navegador e acesse o endereço http://localhost:3000 para visualizar o simulador.
 
 ### Passos para usar o simulador:
-Selecionar tipo de busca: O usuário poderá escolher entre DFS e BFS para visualizar como cada tipo de busca afeta a propagação do impacto nos veículos.
-Configurar o cenário: É possível configurar o número de veículos, a intensidade inicial do impacto e a posição de colisão para visualizar o resultado.
-Iniciar simulação: Após configurar, o usuário deve iniciar a simulação para observar como o impacto se propaga, seja de forma profunda (DFS) ou superficial (BFS).
-Outros
+
+- Após configurar, o usuário deve iniciar a simulação para observar como o impacto se propaga, seja de forma profunda (DFS) ou superficial (BFS).
 
 ## Outros
 Este projeto visa unir conceitos de grafos e trânsito, criando uma representação interativa do fenômeno de engavetamento. Foi desenvolvido com foco em promover o aprendizado de grafos de forma prática e visual, auxiliando alunos e entusiastas a entenderem melhor o funcionamento das buscas DFS e BFS através de uma aplicação em um contexto realista.
