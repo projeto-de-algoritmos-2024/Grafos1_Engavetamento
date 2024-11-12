@@ -24,7 +24,8 @@ Dessa forma, o simulador visa ilustrar a propagação da energia de uma colisão
 
 ![Captura de tela 2024-11-11 212458](https://github.com/user-attachments/assets/3123a455-7f89-4b2e-a85a-e9cfc5ee8d8f)
 
-<iframe src="https://drive.google.com/file/d/1asTrJiG_rj-rYrA24Qf579kZaHfK-X89/preview" allow="autoplay" style="width: 100%; height: 520px; border: none; border-radius: 16px; overflow: hidden;"></iframe>
+<iframe src="https://drive.google.com/file/d/1asTrJiG_rj-rYrA24Qf579kZaHfK-X89/preview" allow="autoplay" allowfullscreen style="width: 100%; height: 520px; border: none; border-radius: 16px; overflow: hidden;"></iframe>
+
 
 ## Instalação 
 **Linguagem**: Typescript<br>
