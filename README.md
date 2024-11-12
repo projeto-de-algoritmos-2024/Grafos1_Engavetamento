@@ -34,12 +34,33 @@ Dessa forma, o simulador visa ilustrar a propagação da energia de uma colisão
 git clone https://github.com/projeto-de-algoritmos-2024/Grafos1_Engavetamento.git
 ```
 
-## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
+## Uso
+Após clonar o repositório, instale as dependências necessárias e execute o projeto. Abaixo estão os passos detalhados para rodar o simulador:
 
-## Outros 
-Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
+### Instale as dependências:
 
+```shell
+cd Grafos1_Engavetamento
+npm install
+```
+### Execute o servidor de desenvolvimento:
+
+```shell
+npm run dev
+```
+
+Abra o navegador e acesse o endereço http://localhost:3000 para visualizar o simulador.
+
+### Passos para usar o simulador:
+Selecionar tipo de busca: O usuário poderá escolher entre DFS e BFS para visualizar como cada tipo de busca afeta a propagação do impacto nos veículos.
+Configurar o cenário: É possível configurar o número de veículos, a intensidade inicial do impacto e a posição de colisão para visualizar o resultado.
+Iniciar simulação: Após configurar, o usuário deve iniciar a simulação para observar como o impacto se propaga, seja de forma profunda (DFS) ou superficial (BFS).
+Outros
+
+## Outros
+Este projeto visa unir conceitos de grafos e trânsito, criando uma representação interativa do fenômeno de engavetamento. Foi desenvolvido com foco em promover o aprendizado de grafos de forma prática e visual, auxiliando alunos e entusiastas a entenderem melhor o funcionamento das buscas DFS e BFS através de uma aplicação em um contexto realista.
+
+Caso tenha dúvidas ou sugestões, fique à vontade para abrir uma issue no repositório do GitHub.
 
 
 
