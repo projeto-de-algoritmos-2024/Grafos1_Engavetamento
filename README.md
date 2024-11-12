@@ -11,7 +11,7 @@
 
 ## Sobre 
 
-Assista ao vídeo de explicação: https://drive.google.com/file/d/1asTrJiG_rj-rYrA24Qf579kZaHfK-X89/view?usp=sharing
+Assista ao vídeo de explicação: https://drive.google.com/file/d/1yzSscMoR6kP-8oQbpcBeuG6hWfB7Lc0R/view?usp=sharing
 
 
 A proposta deste projeto é desenvolver um simulador para as buscas em profundidade (DFS) e em largura (BFS), utilizando como exemplo um fenômeno que ocorre frequentemente nas estradas brasileiras: o engavetamento. O engavetamento acontece quando há uma interrupção abrupta no fluxo de veículos em uma estrada de alta velocidade, fazendo com que um carro em movimento colida bruscamente com a traseira de outro. O impacto dessa colisão pode ser tão intenso que a força da batida é transferida para outros veículos à frente ou ao lado, resultando em múltiplos veículos envolvidos no acidente.
