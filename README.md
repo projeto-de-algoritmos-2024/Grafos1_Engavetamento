@@ -10,6 +10,10 @@
 | 21/1031735  |  Isaac Lucas Souza Bezerra |
 
 ## Sobre 
+
+Assista ao vídeo de explicação: https://drive.google.com/file/d/1asTrJiG_rj-rYrA24Qf579kZaHfK-X89/view?usp=sharing
+
+
 A proposta deste projeto é desenvolver um simulador para as buscas em profundidade (DFS) e em largura (BFS), utilizando como exemplo um fenômeno que ocorre frequentemente nas estradas brasileiras: o engavetamento. O engavetamento acontece quando há uma interrupção abrupta no fluxo de veículos em uma estrada de alta velocidade, fazendo com que um carro em movimento colida bruscamente com a traseira de outro. O impacto dessa colisão pode ser tão intenso que a força da batida é transferida para outros veículos à frente ou ao lado, resultando em múltiplos veículos envolvidos no acidente.
 
 Com essa analogia, o objetivo é representar a disseminação da energia do impacto usando os conceitos de DFS e BFS em um grafo. O DFS (Busca em Profundidade) simularia a propagação do impacto de forma mais "profunda", ou seja, a colisão seguiria de um veículo para outro de maneira sequencial e contínua, como se a energia fosse transmitida de forma direta ao longo de um caminho específico. Já o BFS (Busca em Largura) representaria a propagação simultânea do impacto para vários veículos próximos, como se a energia se espalhasse de maneira mais ampla, atingindo vários carros ao mesmo tempo em um nível superficial.
@@ -24,7 +28,6 @@ Dessa forma, o simulador visa ilustrar a propagação da energia de uma colisão
 
 ![Captura de tela 2024-11-11 212458](https://github.com/user-attachments/assets/3123a455-7f89-4b2e-a85a-e9cfc5ee8d8f)
 
-<iframe src="https://drive.google.com/file/d/1asTrJiG_rj-rYrA24Qf579kZaHfK-X89/preview" allow="autoplay" allowfullscreen style="width: 100%; height: 520px; border: none; border-radius: 16px; overflow: hidden;"></iframe>
 
 
 ## Instalação 
